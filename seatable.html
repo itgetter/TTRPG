@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll a 20-Sided Die</title>
+ 
+  
+</head>
+<body>
+
+    <h1>Roll a 20-Sided Die</h1>
+    <button onclick="rollDie()">Roll the Die</button>
+
+    <div id="result"></div>
+
+    <script>
+        // Define the table of results with blank entries
+        const table = [
+            "MAN OVERBOARD!",  // 1
+            "Something gets lodged on the outside of the hull - it must be dislodged or you suffer -1/2 your movement roll",  // 2
+            "A fire starts below deck - requiring your attention - or +1 damage to ship each turn. (First turn is free). ",  // 3
+            "Add a rogue wave or waterspout to the board-trajectory towards you",  // 4
+            "Cannons malfunction (cannot fire until fixed)",  // 5
+            "Contact with a sandbar causes a -1 to your movement roll",  // 6
+            "Sudden Gust - sends you up to 3 spaces in a random direction. ",  // 7
+            "The ship hits a huge wave and the movement causes you to be trapped/snared by an object. ",  // 8
+            "Doldrums - no movement next turn",  // 9
+            "Boarding party - an enemy ship sends out a rowboat with 1/2 movement - if it catches up with your ship, 5 enemy pirates board your ship. ",  // 10
+            "Poor visibility obscures your vision - but also disguises your vessel. Enemies cannot target you, but your direction for the next turn is chosen randomly. Not moving is an option.",  // 11
+            "Drunken sailors: a few of your crew treated themselves to a bit of the good stuff. Take -1 for every roll that requires crew (Firing cannons, repairs, fighting). However, you have advantage on sway or consort rolls to you crew to convince them to do dangerous actions. (Lasts 3 turns)  ",  // 12
+            "Clipping along - you’ve caught a gust of unexpectedly powerful wind. Disadvantage on attack rolls, but double your movement roll. ",  // 13
+            "",  // 14
+            "",  // 15
+            "",  // 16
+            "",  // 17
+            "",  // 18
+            "",  // 19
+            ""   // 20
+        ];
+
+        // Function to roll the 20-sided die and show result
+        function rollDie() {
+            // Get a random number between 1 and 20
+            const roll = Math.floor(Math.random() * 20) + 1;
+            // Fetch the message based on the result of the roll
+            const message = table[roll - 1] || "No result defined yet.";
+            // Display the result
+            document.getElementById("result").innerText = `You rolled a ${roll}: ${message}`;
+        }
+    </script>
+
+</body>
+</html>
