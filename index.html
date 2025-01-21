@@ -83,6 +83,16 @@
       const message = typeof table[roll - 1] === "function" ? table[roll - 1]() : table[roll - 1];
       // Display the result with the correct article, adjective, and number
       document.getElementById("result").innerText = `${article.charAt(0).toUpperCase() + article.slice(1)} ${adjective} ${roll}: ${message}`;
+      const table = [
+  // Other results here...
+  () => {
+    const pirates = Math.floor(Math.random() * 5) + 1;
+    const pirateText = pirates === 1 ? "pirate" : "pirates"; // Handle singular/plural
+    return `Boarding party - an enemy ship sends out a rowboat with 1/2 movement - if it catches up with your ship, ${pirates} enemy ${pirateText} board your ship.`;
+  },  // 10 (random number of pirates between 1 and 5)
+  // Other results here...
+];
+
     }
 
   </script>
