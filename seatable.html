@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel= "stylesheet" href= "seatable.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roll a 20-Sided Die</title>
- 
-  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Be Neptune's Will?</title>
 </head>
 <body>
 
-    <h1>Roll a 20-Sided Die</h1>
-    <button onclick="rollDie()">Roll the Die</button>
+  <h1>What Be Neptune's Will?</h1>
+  <button onclick="rollDie()">Scry yer Fate</button>
 
-    <div id="result"></div>
+  <div id="result"></div>
 
-    <script>
-        // Define the table of results with blank entries
-        const table = [
-            "MAN OVERBOARD!",  // 1
-            "Something gets lodged on the outside of the hull - it must be dislodged or you suffer -1/2 your movement roll",  // 2
-            "A fire starts below deck - requiring your attention - or +1 damage to ship each turn. (First turn is free). ",  // 3
-            "Add a rogue wave or waterspout to the board-trajectory towards you",  // 4
-            "Cannons malfunction (cannot fire until fixed)",  // 5
-            "Contact with a sandbar causes a -1 to your movement roll",  // 6
-            "Sudden Gust - sends you up to 3 spaces in a random direction. ",  // 7
-            "The ship hits a huge wave and the movement causes you to be trapped/snared by an object. ",  // 8
-            "Doldrums - no movement next turn",  // 9
-            "Boarding party - an enemy ship sends out a rowboat with 1/2 movement - if it catches up with your ship, 5 enemy pirates board your ship. ",  // 10
-            "Poor visibility obscures your vision - but also disguises your vessel. Enemies cannot target you, but your direction for the next turn is chosen randomly. Not moving is an option.",  // 11
-            "Drunken sailors: a few of your crew treated themselves to a bit of the good stuff. Take -1 for every roll that requires crew (Firing cannons, repairs, fighting). However, you have advantage on sway or consort rolls to you crew to convince them to do dangerous actions. (Lasts 3 turns)  ",  // 12
-            "Clipping along - you’ve caught a gust of unexpectedly powerful wind. Disadvantage on attack rolls, but double your movement roll. ",  // 13
-            "",  // 14
-            "",  // 15
-            "",  // 16
-            "",  // 17
-            "",  // 18
-            "",  // 19
-            ""   // 20
-        ];
+  <script>
+    // Define a list of adjectives to use with the dice roll (similar to "cursed")
+    const adjectives = [
+      "cursed", "haunted", "unfortunate", "ominous", "sinister", "foreboding",
+      "macabre", "doomed", "accursed", "fateful", "bewitched", "ill-fated",
+      "freakish", "eerie", "unlucky", "evil", "dreadful", "dark", "twisted"
+    ];
 
-        // Function to roll the 20-sided die and show result
-        function rollDie() {
-            // Get a random number between 1 and 20
-            const roll = Math.floor(Math.random() * 20) + 1;
-            // Fetch the message based on the result of the roll
-            const message = table[roll - 1] || "No result defined yet.";
-            // Display the result
-            document.getElementById("result").innerText = `You rolled a ${roll}: ${message}`;
-        }
-    </script>
+    // Define the table of results with RNG functions where needed
+    const table = [
+      () => Math.random() < 0.5 ? "MAN OVERBOARD!" : "ALBATROSS!",  // 1
+      "Something gets lodged on the outside of the hull - it must be dislodged or you suffer -1/2 your movement roll",  // 2
+      "A fire starts below deck - requiring your attention - or +1 damage to ship each turn. (First turn is free). ",  // 3
+      "Add a rogue wave or waterspout to the board-trajectory towards you",  // 4
+      "Cannons malfunction (cannot fire until fixed)",  // 5
+      "Contact with a sandbar causes a -1 to your movement roll",  // 6
+      () => {
+        const spaces = Math.floor(Math.random() * 3) + 1;
+        const spaceText = spaces === 1 ? "space" : "spaces"; // Check if it's 1 or more than 1
+        return `Sudden Gust - sends you ${spaces} ${spaceText} in a random direction.`;
+      },  // 7 (random spaces between 1 and 3, singular/plural handling)
+      "The ship hits a huge wave and the movement causes you to be trapped under an object. ",  // 8
+      "Doldrums - no movement next turn",  // 9
+      () => {
+        // Random number of pirates between 1 and 5
+        const pirates = Math.floor(Math.random() * 5) + 1;
+        return `Boarding party - an enemy ship sends out a rowboat with 1/2 movement - if it catches up with your ship, ${pirates} ${pirates === 1 ? "pirate" : "pirates"} board your ship.`;
+      },  // 10 (random number of pirates between 1 and 5)
+      "Poor visibility obscures your vision - but also disguises your vessel. Enemies cannot target you, but your direction for the next turn is chosen randomly. Not moving is an option.",  // 11
+      () => {
+        // Random compass direction for movement
+        const directions = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"];
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+        return `Drunken sailors: a few of your crew treated themselves to a bit of the good stuff. Take -1 for every roll that requires crew (Firing cannons, repairs, fighting). However, you have advantage on sway or consort rolls to your crew to convince them to do dangerous actions. (Lasts 3 turns)`;
+      },  // 12 (random number of turns between 1 and 3)
+      "Clipping along - you’ve caught a gust of unexpectedly powerful wind. Disadvantage on attack rolls, but double your movement roll. ",  // 13
+      "Fish net has jammed the rudder - you're stuck going the direction you're heading until it's freed - if you can retrieve it, you have a handy boarding weapon",  // 14
+      "You’re infuriating! All other enemy ships immediately target you. ",  // 15
+      () => {
+        const options = ["FIRE AMMO", "ELECTROPLASMIC AMMO", "SMOKE BOMBS", "GRAPESHOT"];
+        return `A cache of ammunition is floating nearby! See if you can grab the ${options[Math.floor(Math.random() * options.length)]}.`;
+      },  // 16
+      "An enemy pirate has fallen overboard nearby! He could make a valuable ally, or a dangerous liability…",  // 17
+      () => {
+        // Randomize coin amount between 1 and 4
+        const coin = Math.floor(Math.random() * 4) + 1;
+        return `In your path is the unwary crew of a small fishing vessel - it could supply you with ${coin} coin, if you care to plunder it.`;
+      },  // 18 (random coin between 1 and 4)
+      () => {
+        const options = ["ADVANTAGE", "DISADVANTAGE"];
+        return `Out of ammo! While your crew hauls some extra cannonballs from below deck, grab anything you can find and stuff it in the cannon. Next turn you have ${options[Math.floor(Math.random() * options.length)]} to your attack roll`;
+      },  // 19
+      "You sing a rousing song to boost your crews spirits, advantage on sailing rolls for 3 turns. What do you sing? "   // 20
+    ];
+
+    // Function to roll the 20-sided die and show result
+    function rollDie() {
+      // Get a random number between 1 and 20
+      const roll = Math.floor(Math.random() * 20) + 1;
+      // Select a random adjective from the adjectives list
+      const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+      // Determine the correct indefinite article ("a" or "an")
+      const article = ["a", "e", "i", "o", "u"].includes(adjective[0].toLowerCase()) ? "an" : "a";
+      // Fetch the message based on the result of the roll
+      const message = typeof table[roll - 1] === "function" ? table[roll - 1]() : table[roll - 1];
+      // Display the result with the correct article, adjective, and number
+      document.getElementById("result").innerText = `${article.charAt(0).toUpperCase() + article.slice(1)} ${adjective} ${roll}: ${message}`;
+    }
+
+  </script>
 
 </body>
 </html>
